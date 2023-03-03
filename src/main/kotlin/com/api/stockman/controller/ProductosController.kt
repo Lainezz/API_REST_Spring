@@ -28,6 +28,7 @@ class ProductosController {
     /**
      * Inyección de dependencia del servicio para productos
      * @see ProductosServiceAPI
+     * @see [link](https://www.baeldung.com/inversion-control-and-dependency-injection-in-spring#field-based-dependency-injection)
      */
     @Autowired
     lateinit var productosService: ProductosServiceAPI
