@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
 /**
+ * @author Diego
+ * @since 1.0
  * Controlador de la API para el recurso de productos
  * EntryPoint: "/api/v1/productos"
  * @see [com.api.stockman.model.Producto]
