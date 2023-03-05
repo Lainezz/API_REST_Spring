@@ -1,0 +1,263 @@
+{
+  "_type": "export",
+  "__export_format": 4,
+  "__export_date": "2023-03-05T19:17:31.333Z",
+  "__export_source": "insomnia.desktop.app:v2022.7.5",
+  "resources": [
+    {
+      "_id": "req_d4e54eba6e784a40a2c21a0f69de02c5",
+      "parentId": "wrk_29ff9da02a1c4850a1e5549883b7862f",
+      "modified": 1678043715870,
+      "created": 1678021685039,
+      "url": "localhost:8080/api/v1/users/diego@diego.com",
+      "name": "Delete user",
+      "description": "",
+      "method": "DELETE",
+      "body": {},
+      "parameters": [],
+      "headers": [],
+      "authentication": {},
+      "metaSortKey": -1678032697956.5,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "wrk_29ff9da02a1c4850a1e5549883b7862f",
+      "parentId": null,
+      "modified": 1676636607071,
+      "created": 1676636607071,
+      "name": "Kotlin",
+      "description": "",
+      "scope": "collection",
+      "_type": "workspace"
+    },
+    {
+      "_id": "req_e49396770e694b6ebc17b8769dde785d",
+      "parentId": "wrk_29ff9da02a1c4850a1e5549883b7862f",
+      "modified": 1678021651017,
+      "created": 1678020081622,
+      "url": "localhost:8080/api/v1/users/",
+      "name": "Insert User",
+      "description": "",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n\t\"nombre\":\"diego\",\n\t\"email\":\"diego@diego.com\",\n\t\"password\":\"123\"\n}"
+      },
+      "parameters": [],
+      "headers": [{ "name": "Content-Type", "value": "application/json" }],
+      "authentication": {},
+      "metaSortKey": -1678020081622,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_130c387c070842fa9222a4d5ee771615",
+      "parentId": "wrk_29ff9da02a1c4850a1e5549883b7862f",
+      "modified": 1678042181515,
+      "created": 1677255766319,
+      "url": "localhost:8080/api/v1/productos/",
+      "name": "getAll Products",
+      "description": "",
+      "method": "GET",
+      "body": { "mimeType": "application/json", "text": "" },
+      "parameters": [],
+      "headers": [],
+      "authentication": {},
+      "metaSortKey": -1677932868207.5,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_6e439e3eac394f16a4d2d0055916f9fe",
+      "parentId": "wrk_29ff9da02a1c4850a1e5549883b7862f",
+      "modified": 1678042124011,
+      "created": 1678029363395,
+      "url": "localhost:8080/api/v1/productos/1",
+      "name": "GetOne Product",
+      "description": "",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [],
+      "authentication": {},
+      "metaSortKey": -1677889261500.25,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_dccbfdcddeb64a59871ccb426ff2a8ae",
+      "parentId": "wrk_29ff9da02a1c4850a1e5549883b7862f",
+      "modified": 1678042200185,
+      "created": 1677845654793,
+      "url": "localhost:8080/api/v1/productos/",
+      "name": "Insert Product",
+      "description": "",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n\t\"name\":\"agua\",\n\t\"quantity\":500,\n\t\"price\":2\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json",
+          "id": "pair_ff60d9d6f7f741c9b4c27dd57f88f436"
+        },
+        {
+          "id": "pair_af4f0fdb02c44282879fbc123e61091c",
+          "name": "Cookie",
+          "value": "sessionID=99b9fc50-bf69-48ee-b417-98bcc70efbcf",
+          "description": ""
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1677845654793,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_660c6827d8874efb90c078b86eea985f",
+      "parentId": "wrk_29ff9da02a1c4850a1e5549883b7862f",
+      "modified": 1678043391425,
+      "created": 1678030308595,
+      "url": "localhost:8080/api/v1/productos/2",
+      "name": "Update Product",
+      "description": "",
+      "method": "PUT",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n\t\"name\":\"agua\",\n\t\"quantity\":-1,\n\t\"price\":2\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json",
+          "id": "pair_15e96dc479184eecbb09815fb2e26a66"
+        },
+        {
+          "id": "pair_93a444f685c44f6aa9b249ac40ce245d",
+          "name": "Cookie",
+          "value": "sessionID=99b9fc50-bf69-48ee-b417-98bcc70efbcf",
+          "description": ""
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1677255766244,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_97d2dbb57ef7457494537ec1166fdf59",
+      "parentId": "wrk_29ff9da02a1c4850a1e5549883b7862f",
+      "modified": 1678042152653,
+      "created": 1678029460959,
+      "url": "localhost:8080/api/v1/productos/1",
+      "name": "Delete product",
+      "description": "",
+      "method": "DELETE",
+      "body": {},
+      "parameters": [],
+      "headers": [
+        {
+          "id": "pair_ace90719b3544b09a9cd740a4c9b33f7",
+          "name": "Cookie",
+          "value": "sessionID=99b9fc50-bf69-48ee-b417-98bcc70efbcf",
+          "description": ""
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1677255766219,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "env_b64e1764f47e17b488756fb0f6abbc23ca0fd0e6",
+      "parentId": "wrk_29ff9da02a1c4850a1e5549883b7862f",
+      "modified": 1678043788552,
+      "created": 1676636607076,
+      "name": "Base Environment",
+      "data": {},
+      "dataPropertyOrder": {},
+      "color": null,
+      "isPrivate": false,
+      "metaSortKey": 1676636607076,
+      "_type": "environment"
+    },
+    {
+      "_id": "jar_b64e1764f47e17b488756fb0f6abbc23ca0fd0e6",
+      "parentId": "wrk_29ff9da02a1c4850a1e5549883b7862f",
+      "modified": 1678040222333,
+      "created": 1676636607077,
+      "name": "Default Jar",
+      "cookies": [
+        {
+          "key": "sessionID",
+          "value": "99b9fc50-bf69-48ee-b417-98bcc70efbcf",
+          "domain": "localhost",
+          "path": "/api/v1/users",
+          "hostOnly": true,
+          "pathIsDefault": true,
+          "creation": "2023-03-05T18:14:59.831Z",
+          "lastAccessed": "2023-03-05T18:17:02.333Z",
+          "id": "024378481189845758"
+        }
+      ],
+      "_type": "cookie_jar"
+    },
+    {
+      "_id": "spc_a5a9037defdf4a0da91723bcaa20e4c0",
+      "parentId": "wrk_29ff9da02a1c4850a1e5549883b7862f",
+      "modified": 1676636607072,
+      "created": 1676636607072,
+      "fileName": "Kotlin",
+      "contents": "",
+      "contentType": "yaml",
+      "_type": "api_spec"
+    }
+  ]
+}
