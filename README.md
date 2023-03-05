@@ -11,7 +11,7 @@
 
 ## Description
 
-API Rest implemented with Spring for a inventory control app.
+API Rest implemented with Spring for an inventory control app.
 
 It includes CRUD methods for "productos" resource. Also, it includes an user authentication by Session.
 
