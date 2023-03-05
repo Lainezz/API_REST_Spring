@@ -46,13 +46,13 @@ class ProductoMapper : GenericMapperAPI<ProductoDTO, Producto>{
 
     /**
      * Función para mapear un alista de [Producto] a una lista de [ProductoDTO]
-     * @param productosEntity: MutableList<[Producto]>
+     * @param listOfEntities: MutableList<[Producto]>
      * @return lista con objetos de tipo [ProductoDTO]
      */
-    fun toListOfDTO(productosEntity: MutableList<Producto>?) : MutableList<ProductoDTO> {
+    override fun toListOfDTO(listOfEntities: MutableList<Producto>?) : MutableList<ProductoDTO> {
 
         val returnList: MutableList<ProductoDTO> = mutableListOf()
-        productosEntity?.forEach { entry: Producto -> returnList.add(toDTO(entry)) }
+        listOfEntities?.forEach { entry: Producto -> returnList.add(toDTO(entry)) }
         return returnList
     }
 

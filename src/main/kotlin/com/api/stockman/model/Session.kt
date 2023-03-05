@@ -11,7 +11,7 @@ class Session(
 
     @Id
     @OneToOne(cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
-    @JoinColumn(name="id_user")
+    @JoinColumn(name="id_user", referencedColumnName = "email")
     var usuario: User
 ) {
 }

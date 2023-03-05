@@ -8,8 +8,7 @@ import java.time.LocalDate
 class User(
     @Column(name="nombre")
     var nombre: String,
-    @Column(name="email")
-    var email: String,
+
     @Column(name="password")
     var password: String,
 
@@ -23,9 +22,9 @@ class User(
     var session: Session?,
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="id")
-    var id: Long?
+    @Column(name="email")
+    var email: String,
+
 ) {
 
 }

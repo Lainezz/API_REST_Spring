@@ -1,7 +1,9 @@
 package com.api.stockman.dto.mapper.impl
 
+import com.api.stockman.dto.ProductoDTO
 import com.api.stockman.dto.mapper.api.GenericMapperAPI
 import com.api.stockman.dto.UserDTO
+import com.api.stockman.model.Producto
 import com.api.stockman.model.User
 import org.modelmapper.ModelMapper
 import org.springframework.beans.factory.annotation.Autowired
@@ -27,5 +29,11 @@ class UserMapper : GenericMapperAPI<UserDTO, User>{
         userEntity.entryDate = LocalDate.now()
         userEntity.banned = false
         return userEntity
+    }
+
+    override fun toListOfDTO(listOfEntities: MutableList<User>?): MutableList<UserDTO> {
+        val returnList: MutableList<UserDTO> = mutableListOf()
+        listOfEntities?.forEach { entry: User -> returnList.add(toDTO(entry)) }
+        return returnList
     }
 }
