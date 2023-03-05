@@ -56,4 +56,9 @@ class ProductoMapper : GenericMapperAPI<ProductoDTO, Producto>{
         return returnList
     }
 
+    override fun updateEntity(dto: ProductoDTO, entity: Producto) {
+        entity.modificationDate = LocalDate.now()
+        modelMapper.map(dto, entity)
+    }
+
 }

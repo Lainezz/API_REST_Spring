@@ -4,14 +4,13 @@ import jakarta.persistence.*
 
 @Entity
 @Table(name="session")
-class Session(
+data class Session(
     @Id
     @Column(name="sessionID")
     var sessionID: String,
 
-    @Id
-    @OneToOne(cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
-    @JoinColumn(name="id_user", referencedColumnName = "email")
+    @OneToOne(cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
+    @JoinColumn(name="email_user", referencedColumnName = "email")
     var usuario: User
 ) {
 }

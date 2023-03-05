@@ -5,7 +5,7 @@ import java.time.LocalDate
 
 @Entity
 @Table(name = "producto")
-class Producto(
+data class Producto(
     @Column(name="name")
     var name: String,
     @Column(name="quantity")

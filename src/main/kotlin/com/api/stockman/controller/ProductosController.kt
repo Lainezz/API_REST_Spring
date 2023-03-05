@@ -5,8 +5,13 @@ import com.api.stockman.dto.ProductoDTO
 import com.api.stockman.dto.UserDTO
 import com.api.stockman.dto.mapper.api.GenericMapperAPI
 import com.api.stockman.model.Producto
+import com.api.stockman.model.Session
 import com.api.stockman.model.User
 import com.api.stockman.service.api.ProductosServiceAPI
+import com.api.stockman.service.api.SessionsServiceAPI
+import jakarta.servlet.http.Cookie
+import jakarta.servlet.http.HttpServletRequest
+import jakarta.servlet.http.HttpServletResponse
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -19,6 +24,8 @@ import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.servlet.HandlerInterceptor
+import org.springframework.web.servlet.ModelAndView
 
 /**
  * ### Controlador de Productos
@@ -41,10 +48,11 @@ class ProductosController {
      */
     @Autowired
     lateinit var productosService: ProductosServiceAPI
+    @Autowired
+    lateinit var sessionsService: SessionsServiceAPI
 
     @Autowired
-    lateinit var productoMapper: GenericMapperAPI<ProductoDTO, Producto>
-
+    lateinit var productoMapper: ProductoMapper
 
     /**
      * ### GET ALL PRODUCT
@@ -56,12 +64,12 @@ class ProductosController {
      * @return objeto de tipo [ResponseEntity] con objeto de tipo [MutableList] de [ProductoDTO]
      */
     @GetMapping("/")
-    fun getAll(): ResponseEntity<MutableList<ProductoDTO>> {
+    fun getAll(): ResponseEntity<Any> {
         // Generamos una lista de DTOs
         val listaProductos: MutableList<ProductoDTO> = productoMapper.toListOfDTO(productosService.all)
 
         // Devolvemos la lista generada
-        return ResponseEntity<MutableList<ProductoDTO>>(listaProductos, HttpStatus.OK)
+        return ResponseEntity<Any>(listaProductos, HttpStatus.OK)
     }
 
     /**
@@ -76,8 +84,14 @@ class ProductosController {
      * @return objeto de tipo [ResponseEntity] con objeto de tipo [ProductoDTO]
      */
     @GetMapping("/{id}")
-    fun getOneProduct(@PathVariable id: Long) /*:ResponseEntity<ProductoDTO>*/{
+    fun getOneProduct(@PathVariable id: Long) : ResponseEntity<Any>{
+        // Consigo el producto de la BD
+        val productBD: Producto? = productosService.get(id)
 
+        // Si no lo encuentra, entonces retorno 404 not found
+        productBD?: return ResponseEntity<Any>("Producto No Encontrado", HttpStatus.NOT_FOUND)
+
+        return  ResponseEntity<Any>(productoMapper.toDTO(productBD), HttpStatus.OK)
     }
 
     /**
@@ -92,8 +106,18 @@ class ProductosController {
      * @return objeto de tipo [ResponseEntity] con un [String] que contendrá un mensaje
      */
     @DeleteMapping("/{id}")
-    fun deleteOneProduct(@PathVariable id: Long) /*: ResponseEntity<String>*/ {
+    fun deleteOneProduct(@PathVariable id: Long, request: HttpServletRequest) : ResponseEntity<Any> {
 
+        if(!checkCookie(request)) return ResponseEntity<Any>("No autorizado", HttpStatus.FORBIDDEN)
+
+        // Consigo el producto de la BD
+        val productBD: Producto? = productosService.get(id)
+
+        // Si no lo encuentra, entonces retorno 404 not found
+        productBD?: return ResponseEntity<Any>("Producto No Encontrado", HttpStatus.NOT_FOUND)
+
+        productosService.deleteOne(id)
+        return ResponseEntity<Any>("Eliminado", HttpStatus.OK)
     }
 
     /**
@@ -110,8 +134,19 @@ class ProductosController {
      * @return objeto de tipo [ResponseEntity] con objeto de tipo [ProductoDTO]
      */
     @PutMapping("/{id}")
-    fun updateOneProduct(@RequestBody productoDTO: ProductoDTO, @PathVariable id: Long) /*:ResponseEntity<ProductoDTO>*/{
+    fun updateOneProduct(@RequestBody productoDTO: ProductoDTO, @PathVariable id: Long, request: HttpServletRequest) :ResponseEntity<Any>{
 
+        if(!checkCookie(request)) return ResponseEntity<Any>("No autorizado", HttpStatus.FORBIDDEN)
+
+        // Consigo el producto de la BD
+        var productBD: Producto? = productosService.get(id)
+
+        // Si no lo encuentra, entonces retorno 404 not found
+        productBD?: return ResponseEntity<Any>("Producto No Encontrado", HttpStatus.NOT_FOUND)
+
+        productoMapper.updateEntity(productoDTO, productBD)
+        productosService.insertOne(productBD)
+        return  ResponseEntity<Any>(productoMapper.toDTO(productBD), HttpStatus.OK)
     }
 
 
@@ -126,12 +161,15 @@ class ProductosController {
      * @return objeto de tipo [ResponseEntity] con objeto de tipo [ProductoDTO]
      */
     @PostMapping("/")
-    fun insertOne(@RequestBody productoDTO: ProductoDTO): ResponseEntity<ProductoDTO> {
+    fun insertOne(@RequestBody productoDTO: ProductoDTO, request: HttpServletRequest): ResponseEntity<Any> {
+
+        // Compruebo la cookie
+        if(!checkCookie(request)) return ResponseEntity<Any>("No autorizado", HttpStatus.FORBIDDEN)
 
         // Busco si el producto ya se encuentra en la base de datos
         val productoBD: Producto? = productosService.all?.find { producto: Producto -> producto.name == productoDTO.name }
         if(productoBD != null)
-            return ResponseEntity<ProductoDTO>(productoDTO, HttpStatus.CONFLICT)
+            return ResponseEntity<Any>(productoDTO, HttpStatus.CONFLICT)
 
         // Si el producto no está en la BDD, convertimos el DTO a entidad
         val productoEntity: Producto = productoMapper.toEntity(productoDTO)
@@ -140,8 +178,23 @@ class ProductosController {
         productosService.insertOne(productoEntity)
 
         // Devolvemos un mensaje correcto
-        return ResponseEntity<ProductoDTO>(productoDTO, HttpStatus.OK)
+        return ResponseEntity<Any>(productoDTO, HttpStatus.OK)
     }
 
+    /**
+     * Función para comprobar la valides de una coookie
+     */
+    fun checkCookie(request: HttpServletRequest): Boolean {
 
+        println("Cookie: ${request.cookies.find { cookie: Cookie? -> cookie?.name == "sessionID" }?.value}")
+        // Busco que la cookie de la petición contenga una sessionID
+        val sessionID = request.cookies.find { cookie: Cookie? -> cookie?.name == "sessionID" }?.value
+        // Si no hay sessionID en la petición, es que nunca ha habido un logueo y por tanto, se deniega la entrada
+        sessionID?: return false
+
+        // Si existe una sessionID, compruebo que esa sessionID se encuentre en la BDD
+        val session: Session? = sessionsService[sessionID]
+        session?: return false
+        return true
+    }
 }

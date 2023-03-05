@@ -5,11 +5,17 @@ import com.api.stockman.dto.UserDTO
 import com.api.stockman.dto.mapper.api.GenericMapperAPI
 import com.api.stockman.dto.mapper.impl.UserMapper
 import com.api.stockman.model.Producto
+import com.api.stockman.model.Session
 import com.api.stockman.model.User
 import com.api.stockman.service.api.ProductosServiceAPI
+import com.api.stockman.service.api.SessionsServiceAPI
 import com.api.stockman.service.api.UsersServiceAPI
+import jakarta.servlet.http.Cookie
+import jakarta.servlet.http.HttpServletResponse
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
+import org.springframework.http.ResponseCookie
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.CrossOrigin
 import org.springframework.web.bind.annotation.DeleteMapping
@@ -42,6 +48,8 @@ class UsersController {
      */
     @Autowired
     lateinit var usersService: UsersServiceAPI
+    @Autowired
+    lateinit var sessionsService: SessionsServiceAPI
 
     @Autowired
     lateinit var userMapper: GenericMapperAPI<UserDTO, User>
@@ -58,17 +66,31 @@ class UsersController {
      * @return objeto de tipo [ResponseEntity] con objeto de tipo [UserDTO]
      */
     @PostMapping("/")
-    fun insertUser(@RequestBody userDTO: UserDTO) : ResponseEntity<User> {
+    fun insertUser(@RequestBody userDTO: UserDTO, response: HttpServletResponse) : ResponseEntity<Any> {
+
+        // Si el usuario existe, devuelvo codigo estado 409 Conflict
+        usersService.get(userDTO.email) ?: ResponseEntity<Any>("Usuario ya existente", HttpStatus.CONFLICT)
+
+        // Si el usuario no está, se procede con la inserción del mismo
         val userEntity: User = userMapper.toEntity(userDTO)
 
-        usersService.insertOne(userEntity)
+        // Al insertar un usuario, también generamos una sesión para el mismo
+        val session: Session = sessionsService.generateSessionForUser(userEntity)
 
-        return ResponseEntity<User>(userEntity, HttpStatus.OK)
+        // Aniado la sesión al usuario
+        userEntity.session = session
+        usersService.insertOne(userEntity)
+        
+        //La sesión que hemos generado la introducimos en una cookie que viajará del cliente al servidor y viceversa
+        val cookie: Cookie = Cookie("sessionID", session.sessionID)
+        response.addCookie(cookie)
+
+        return ResponseEntity<Any>(userMapper.toDTO(userEntity), HttpStatus.OK)
     }
 
     /**
-     * ### UPDATE USER
-     * Función para actualizar un [User] en el sistema.
+     * ### DELETE USER
+     * Función para eliminar un [User] del sistema.
      * Recibe el email del usuario a actualizar en la ruta de la petición
      *
      * - HTTP method: DELETE

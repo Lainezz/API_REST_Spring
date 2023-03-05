@@ -25,9 +25,12 @@ class UserMapper : GenericMapperAPI<UserDTO, User>{
     }
 
     override fun toEntity(dto: UserDTO): User {
+        // Mapeo los atributos básicos del usuario
         val userEntity: User = modelMapper.map(dto, User::class.java)
+        // Aniado el entryDate y si está baneado o no
         userEntity.entryDate = LocalDate.now()
         userEntity.banned = false
+
         return userEntity
     }
 
@@ -35,5 +38,9 @@ class UserMapper : GenericMapperAPI<UserDTO, User>{
         val returnList: MutableList<UserDTO> = mutableListOf()
         listOfEntities?.forEach { entry: User -> returnList.add(toDTO(entry)) }
         return returnList
+    }
+
+    override fun updateEntity(dto: UserDTO, entity: User) {
+        modelMapper.map(dto, entity)
     }
 }
