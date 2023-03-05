@@ -1,8 +1,7 @@
 package com.api.stockman.controller
 
-import com.api.stockman.dto.producto.mapper.ProductoMapper
-import com.api.stockman.dto.producto.GetAllProductoDTO
-import com.api.stockman.dto.producto.InsertProductoDTO
+import com.api.stockman.dto.mapper.impl.ProductoMapper
+import com.api.stockman.dto.ProductoDTO
 import com.api.stockman.model.Producto
 import com.api.stockman.service.api.ProductosServiceAPI
 import org.springframework.beans.factory.annotation.Autowired
@@ -40,31 +39,31 @@ class ProductosController {
 
 
     @GetMapping("/")
-    fun getAll(): ResponseEntity<MutableList<GetAllProductoDTO>> {
-
+    fun getAll(): ResponseEntity<MutableList<ProductoDTO>> {
         // Generamos una lista de DTOs
-        val listaProductos: MutableList<GetAllProductoDTO> = productoMapper.toListOfDTO(productosService.all)
+        val listaProductos: MutableList<ProductoDTO> = productoMapper.toListOfDTO(productosService.all)
 
         // Devolvemos la lista generada
-        return ResponseEntity<MutableList<GetAllProductoDTO>>(listaProductos, HttpStatus.OK)
+        return ResponseEntity<MutableList<ProductoDTO>>(listaProductos, HttpStatus.OK)
     }
 
     /**
      * Función que controla el endpoint "/api/v1/productos" para el método POST
      *
-     * @param productoDTO: [InsertProductoDTO]
+     * TODO: Comprobar si se intenta insertar un producto ya existente
+     * @param productoDTO: [ProductoDTO]
      */
     @PostMapping("/")
-    fun insertOne(@RequestBody productoDTO: InsertProductoDTO): ResponseEntity<InsertProductoDTO> {
+    fun insertOne(@RequestBody productoDTO: ProductoDTO): ResponseEntity<ProductoDTO> {
 
         // Convertimos el DTO a entidad
-        val productoEntity: Producto = productoMapper.convertToEntity(productoDTO)
+        val productoEntity: Producto = productoMapper.toEntity(productoDTO)
 
         // Guardamos la entidad en la BDD
         productosService.insertOne(productoEntity)
 
         // Devolvemos un mensaje correcto
-        return ResponseEntity<InsertProductoDTO>(productoDTO, HttpStatus.OK)
+        return ResponseEntity<ProductoDTO>(productoDTO, HttpStatus.OK)
     }
 
 

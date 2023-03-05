@@ -14,6 +14,8 @@ class Producto(
     var price: Double,
     @Column(name="entryDate")
     var entryDate: LocalDate,
+    @Column(name="modificationDate")
+    var modificationDate: LocalDate,
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id")
