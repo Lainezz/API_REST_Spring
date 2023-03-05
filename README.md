@@ -28,6 +28,7 @@ It uses JPA Hibernate as ORM (included in the Spring environment)
 
 #### Sample Data
 Some examples can be found on this [page](/src/main/resources/requests)
+URL to access swagger: http://localhost:8080/stockman
 
 ---
 
@@ -41,6 +42,7 @@ dependencies {
 	runtimeOnly("com.mysql:mysql-connector-j")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	implementation("org.modelmapper:modelmapper:3.1.1")
+	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.2")
 }
 ````
 
