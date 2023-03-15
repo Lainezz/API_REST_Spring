@@ -34,7 +34,7 @@ abstract class GenericServiceImpl<T, ID: Serializable> : GenericServiceAPI<T,ID>
     /**
      * Obtiene 1 registro de la tabla
      * @param id: id de la entidad a buscar
-     * @return [obj]: objeto de tipo [T] con el registro de la tabla de la BDD
+     * @return obj: objeto de tipo [T] con el registro de la tabla de la BDD
      */
     override operator fun get(id: ID): T? {
         val obj = dao.findById(id)
@@ -46,12 +46,12 @@ abstract class GenericServiceImpl<T, ID: Serializable> : GenericServiceAPI<T,ID>
 
     /**
      * Obtiene todos los registros de la tabla
-     * @return [returnList]: MutableList de elementos [T]
+     * @return returnList: MutableList de elementos [T]
      */
     override val all: MutableList<T>?
         get(){
             val returnList: MutableList<T> = mutableListOf()
-            dao.findAll().forEach( { entry:T -> returnList.add(entry) } )
+            dao.findAll().forEach { entry: T -> returnList.add(entry) }
             return returnList
         }
 

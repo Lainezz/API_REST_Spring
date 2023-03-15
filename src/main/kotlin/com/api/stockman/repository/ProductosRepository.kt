@@ -5,5 +5,4 @@ import org.springframework.data.repository.CrudRepository
 import org.springframework.stereotype.Repository
 
 @Repository
-interface ProductosRepository : CrudRepository<Producto, Long> {
-}
+interface ProductosRepository : CrudRepository<Producto, Long>

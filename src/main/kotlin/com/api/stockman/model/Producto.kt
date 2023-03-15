@@ -20,5 +20,4 @@ data class Producto(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id")
     var id: Long?
-) {
-}
+)

@@ -12,5 +12,4 @@ data class Session(
     @OneToOne(cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
     @JoinColumn(name="email_user", referencedColumnName = "email")
     var usuario: User
-) {
-}
+)

@@ -1,30 +1,17 @@
 package com.api.stockman.controller
 
-import com.api.stockman.dto.ProductoDTO
 import com.api.stockman.dto.UserDTO
 import com.api.stockman.dto.mapper.api.GenericMapperAPI
-import com.api.stockman.dto.mapper.impl.UserMapper
-import com.api.stockman.model.Producto
 import com.api.stockman.model.Session
 import com.api.stockman.model.User
-import com.api.stockman.service.api.ProductosServiceAPI
 import com.api.stockman.service.api.SessionsServiceAPI
 import com.api.stockman.service.api.UsersServiceAPI
 import jakarta.servlet.http.Cookie
 import jakarta.servlet.http.HttpServletResponse
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
-import org.springframework.http.ResponseCookie
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.CrossOrigin
-import org.springframework.web.bind.annotation.DeleteMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestParam
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 
 /**
@@ -44,7 +31,7 @@ class UsersController {
     /**
      * Inyección de dependencia del servicio para users
      * @see UsersServiceAPI
-     * @see [link](https://www.baeldung.com/inversion-control-and-dependency-injection-in-spring#field-based-dependency-injection)
+     * @see link(https://www.baeldung.com/inversion-control-and-dependency-injection-in-spring#field-based-dependency-injection)
      */
     @Autowired
     lateinit var usersService: UsersServiceAPI
@@ -69,7 +56,7 @@ class UsersController {
     fun insertUser(@RequestBody userDTO: UserDTO, response: HttpServletResponse) : ResponseEntity<Any> {
 
         // Si el usuario existe, devuelvo codigo estado 409 Conflict
-        usersService.get(userDTO.email) ?: ResponseEntity<Any>("Usuario ya existente", HttpStatus.CONFLICT)
+        usersService[userDTO.email] ?: ResponseEntity<Any>("Usuario ya existente", HttpStatus.CONFLICT)
 
         // Si el usuario no está, se procede con la inserción del mismo
         val userEntity: User = userMapper.toEntity(userDTO)
@@ -102,7 +89,7 @@ class UsersController {
     @DeleteMapping("/{email}")
     fun deleteUser(@PathVariable email: String) : ResponseEntity<String> {
         // Consigo el usuario de la BD
-        val userBD = usersService.get(email)
+        val userBD = usersService[email]
 
         // Si no lo encuentra, entonces retorno 404 not found
         userBD?: return ResponseEntity<String>("Usuario No Encontrado", HttpStatus.NOT_FOUND)

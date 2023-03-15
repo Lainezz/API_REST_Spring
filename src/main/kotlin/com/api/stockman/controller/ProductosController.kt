@@ -1,31 +1,17 @@
 package com.api.stockman.controller
 
-import com.api.stockman.dto.mapper.impl.ProductoMapper
 import com.api.stockman.dto.ProductoDTO
-import com.api.stockman.dto.UserDTO
-import com.api.stockman.dto.mapper.api.GenericMapperAPI
+import com.api.stockman.dto.mapper.impl.ProductoMapper
 import com.api.stockman.model.Producto
 import com.api.stockman.model.Session
-import com.api.stockman.model.User
 import com.api.stockman.service.api.ProductosServiceAPI
 import com.api.stockman.service.api.SessionsServiceAPI
 import jakarta.servlet.http.Cookie
 import jakarta.servlet.http.HttpServletRequest
-import jakarta.servlet.http.HttpServletResponse
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.CrossOrigin
-import org.springframework.web.bind.annotation.DeleteMapping
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.PutMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
-import org.springframework.web.servlet.HandlerInterceptor
-import org.springframework.web.servlet.ModelAndView
+import org.springframework.web.bind.annotation.*
 
 /**
  * ### Controlador de Productos
@@ -44,7 +30,7 @@ class ProductosController {
     /**
      * Inyección de dependencia del servicio para productos
      * @see ProductosServiceAPI
-     * @see [link](https://www.baeldung.com/inversion-control-and-dependency-injection-in-spring#field-based-dependency-injection)
+     * @see link(https://www.baeldung.com/inversion-control-and-dependency-injection-in-spring#field-based-dependency-injection)
      */
     @Autowired
     lateinit var productosService: ProductosServiceAPI
@@ -86,7 +72,7 @@ class ProductosController {
     @GetMapping("/{id}")
     fun getOneProduct(@PathVariable id: Long) : ResponseEntity<Any>{
         // Consigo el producto de la BD
-        val productBD: Producto? = productosService.get(id)
+        val productBD: Producto? = productosService[id]
 
         // Si no lo encuentra, entonces retorno 404 not found
         productBD?: return ResponseEntity<Any>("Producto No Encontrado", HttpStatus.NOT_FOUND)
@@ -111,7 +97,7 @@ class ProductosController {
         if(!checkCookie(request)) return ResponseEntity<Any>("No autorizado", HttpStatus.FORBIDDEN)
 
         // Consigo el producto de la BD
-        val productBD: Producto? = productosService.get(id)
+        val productBD: Producto? = productosService[id]
 
         // Si no lo encuentra, entonces retorno 404 not found
         productBD?: return ResponseEntity<Any>("Producto No Encontrado", HttpStatus.NOT_FOUND)
@@ -139,7 +125,7 @@ class ProductosController {
         if(!checkCookie(request)) return ResponseEntity<Any>("No autorizado", HttpStatus.FORBIDDEN)
 
         // Consigo el producto de la BD
-        var productBD: Producto? = productosService.get(id)
+        val productBD: Producto? = productosService[id]
 
         // Si no lo encuentra, entonces retorno 404 not found
         productBD?: return ResponseEntity<Any>("Producto No Encontrado", HttpStatus.NOT_FOUND)

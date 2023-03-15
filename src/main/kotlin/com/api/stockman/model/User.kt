@@ -25,6 +25,4 @@ data class User(
     @Column(name="email")
     var email: String,
 
-) {
-
-}
+)

@@ -5,5 +5,4 @@ import org.springframework.data.repository.CrudRepository
 import org.springframework.stereotype.Repository
 
 @Repository
-interface SessionsRepository : CrudRepository<Session, String> {
-}
+interface SessionsRepository : CrudRepository<Session, String>
