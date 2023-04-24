@@ -51,7 +51,7 @@ class ProductosController {
      */
     @GetMapping("/")
     fun getAll(): ResponseEntity<Any> {
-        // Generamos una lista de DTOs
+        // Generamos una lista de DTO
         val listaProductos: MutableList<ProductoDTO> = productoMapper.toListOfDTO(productosService.all)
 
         // Devolvemos la lista generada
@@ -61,7 +61,7 @@ class ProductosController {
     /**
      * ### GET ONE PRODUCT
      * Función para obtener un [Producto] del sistema.
-     * Recibe el id del producto a actualizar en la ruta de la petición
+     * Recibe el ID del producto a actualizar en la ruta de la petición
      *
      * - HTTP method: GET
      * - ENDPOINT: /api/v1/productos/{id}
@@ -83,7 +83,7 @@ class ProductosController {
     /**
      * ### DELETE PRODUCT
      * Función para eliminar un [Producto] del sistema.
-     * Recibe el id del producto a actualizar en la ruta de la petición
+     * Recibe el ID del producto a actualizar en la ruta de la petición
      *
      * - HTTP method: DELETE
      * - ENDPOINT: /api/v1/productos/{id}

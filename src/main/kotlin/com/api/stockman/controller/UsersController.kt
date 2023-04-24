@@ -31,7 +31,7 @@ class UsersController {
     /**
      * Inyección de dependencia del servicio para users
      * @see UsersServiceAPI
-     * @see link(https://www.baeldung.com/inversion-control-and-dependency-injection-in-spring#field-based-dependency-injection)
+     * @see [link](https://www.baeldung.com/inversion-control-and-dependency-injection-in-spring#field-based-dependency-injection)
      */
     @Autowired
     lateinit var usersService: UsersServiceAPI

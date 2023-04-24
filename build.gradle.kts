@@ -6,6 +6,7 @@ plugins {
 	kotlin("jvm") version "1.7.22"
 	kotlin("plugin.spring") version "1.7.22"
 	kotlin("plugin.jpa") version "1.7.22"
+	id("org.jetbrains.dokka") version "1.8.10"
 }
 
 group = "com.api"
@@ -36,4 +37,12 @@ tasks.withType<KotlinCompile> {
 
 tasks.withType<Test> {
 	useJUnitPlatform()
+}
+
+tasks.dokkaHtml {
+	outputDirectory.set(buildDir.resolve("documentation/html"))
+}
+
+tasks.dokkaGfm {
+	outputDirectory.set(buildDir.resolve("documentation/markdown"))
 }
