@@ -41,6 +41,40 @@ class UsersController {
     @Autowired
     lateinit var userMapper: GenericMapperAPI<UserDTO, User>
 
+
+    /**
+     * ### LOGIN USER
+     * Función para hacer login con un [User] en el sistema.
+     * Recibe los datos del  usuario en el cuerpo de la petición.
+     *
+     * - HTTP method: POST
+     * - ENDPOINT: /api/v1/users/login
+     *
+     * @param userDTO: [UserDTO]
+     * @return objeto de tipo [ResponseEntity] con objeto de tipo [UserDTO]
+     */
+    @PostMapping("/login")
+    fun loginUser(@RequestBody userDTO: UserDTO, response: HttpServletResponse) : ResponseEntity<Any> {
+
+        // Si el usuario no existe, devuelvo codigo estado 404 NOT FOUND
+        var userEntity: User = usersService[userDTO.email]
+            ?: return ResponseEntity<Any>("Usuario no existente", HttpStatus.NOT_FOUND)
+
+
+        // Al insertar un usuario, también generamos una sesión para el mismo
+        val session: Session = sessionsService.generateSessionForUser(userEntity)
+
+        // Aniado la sesión al usuario
+        userEntity.session = session
+
+        //La sesión que hemos generado la introducimos en una cookie que viajará del cliente al servidor y viceversa
+        val cookie: Cookie = Cookie("sessionID", session.sessionID)
+        response.addCookie(cookie)
+
+        return ResponseEntity<Any>(userMapper.toDTO(userEntity), HttpStatus.OK)
+    }
+
+
     /**
      * ### INSERT USER
      * Función para insertar un nuevo [User] en el sistema.
@@ -56,7 +90,10 @@ class UsersController {
     fun insertUser(@RequestBody userDTO: UserDTO, response: HttpServletResponse) : ResponseEntity<Any> {
 
         // Si el usuario existe, devuelvo codigo estado 409 Conflict
-        usersService[userDTO.email] ?: ResponseEntity<Any>("Usuario ya existente", HttpStatus.CONFLICT)
+        val user: User? = usersService[userDTO.email]
+        if (user != null) {
+            return ResponseEntity<Any>("Usuario ya existente", HttpStatus.CONFLICT)
+        }
 
         // Si el usuario no está, se procede con la inserción del mismo
         val userEntity: User = userMapper.toEntity(userDTO)

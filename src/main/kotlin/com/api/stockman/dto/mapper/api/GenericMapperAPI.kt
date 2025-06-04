@@ -1,5 +1,6 @@
 package com.api.stockman.dto.mapper.api
 
+
 interface GenericMapperAPI<T,E> {
 
     fun toEntity(dto: T): E

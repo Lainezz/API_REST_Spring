@@ -26,6 +26,9 @@ dependencies {
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	implementation("org.modelmapper:modelmapper:3.1.1")
 	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.2")
+	testImplementation("org.mockito.kotlin:mockito-kotlin:4.0.0")
+	testImplementation("org.jetbrains.kotlin:kotlin-reflect")
+
 }
 
 tasks.withType<KotlinCompile> {

@@ -17,16 +17,20 @@ class SessionsServiceImpl : SessionsServiceAPI, GenericServiceImpl<Session, Stri
 
     override fun generateSessionForUser(user: User) : Session {
         // 1º Buscamos la session del usuario
-        val session: Session? = get(user.email)
+        var session: Session? = get(user.email)
 
         // 2º Si ya existe una sesión, devuelvo esa sesión
         if (session != null) return session
 
         // 3º Si no existe una sesión, se crea y se devuelve
-        return Session(
+        session = Session(
             UUID.randomUUID().toString(),
             user
         )
+
+        insertOne(session)
+
+        return session
 
     }
 
